@@ -1,0 +1,23 @@
+@import './styles/theme.scss';
+$theme-font:    verdana, sans-serif;
+
+body {
+  font: $theme-font;
+  background-color: $background-color;
+  h1, h2 {
+      color: $accent2
+  }
+}
+
+.app {
+  height: 100%;
+}
+
+.main {
+    width: 90%;
+    margin: auto;
+}
+
+nav {
+  background-color: $navigation-color
+}

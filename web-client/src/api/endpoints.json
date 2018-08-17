@@ -1,0 +1,14 @@
+{
+  "production": {
+    "url":
+  },
+
+  "development": {
+    "url": "http://localhost",
+    "port": 8080,
+    "api" : "api",
+    "endpoints" : {
+      "get_events": "get_events"
+    }
+  }
+}
