@@ -1,0 +1,8 @@
+{
+  "General": {
+    "Some Setting here." : {
+      "Type": "CheckBox",
+      "Default": "On"
+    }
+  }
+}

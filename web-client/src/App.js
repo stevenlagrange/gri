@@ -23,7 +23,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <Navbar brand='GRi' right>
+        <Navbar brand='GRI' right>
           <li><NavLink to="/search"><Icon>search</Icon></NavLink></li>
           <li><NavLink to="/profile"><Icon>account_circle</Icon></NavLink></li>
           <li><NavLink to="/calendar"><Icon>event</Icon></NavLink></li>
