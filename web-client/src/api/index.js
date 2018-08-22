@@ -1,30 +1,43 @@
 import axios from 'axios';
+var config = require('./configuration.json');
 
-const API = {
+var api;
+if (config.active == "production") {
+  api = config.production.url + config.production.version;
+} else {
+  api = config.development.url + config.development.version;
+}
+
+const GoRaceInfoAPI = {
 
   getEvents(pk) {
-    return axios.get('http://localhost:8000/events/');
+    const endpoint = api + '/events/';
+    return axios.get(endpoint);
   },
 
   createEvent(event) {
-    return axios.post('http://localhost:8000/events/', event);
+    const endpoint = api + '/events/';
+    return axios.post(endpoint, event);
   },
 
 
   getPosts(user) {
-    return axios.get('http://localhost:8000/posts/');
+    const endpoint = api + '/posts/';
+    return axios.get(endpoint);
   },
 
   createPost(post) {
     console.log(post);
-    return axios.post('http://localhost:8000/posts/', post);
+    const endpoint = api + '/posts/';
+    return axios.post(endpoint, post);
   },
 
 
   getCalendars(user) {
-    return axios.get('http://localhost:8000/calendars/');
+    const endpoint = api + '/calendars/';
+    return axios.get(endpoint);
   }
 
 }
 
-export default API;
+export default GoRaceInfoAPI;

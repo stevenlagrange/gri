@@ -43,7 +43,7 @@ class AddPost extends Component {
     let form = {
       title: this.state.title,
       data: this.state.post,
-      user: 2
+      user: 1
     };
 
     API.createPost(form)

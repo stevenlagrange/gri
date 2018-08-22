@@ -5,7 +5,6 @@ import ProfileHeader from '../../components/ProfileHeader';
 import ProfileUtilites from '../../components/ProfileUtilites';
 import AddPost from '../../components/AddPost';
 import API from '../../api';
-import Models from '../../api/models';
 import './profile.scss';
 
 class Profile extends Component {

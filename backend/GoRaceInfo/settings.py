@@ -25,7 +25,10 @@ SECRET_KEY = 'odjl%g#b-zcgo2iz71@dtj8arf0if5zp0v6c6=e#&91r4jxpr8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'goraceinfo-dev.us-west-2.elasticbeanstalk.com',
+    'localhost'
+]
 
 
 # Application definition
@@ -99,10 +102,21 @@ SQLITE_CONN = {
     'NAME': os.path.join(BASE_DIR, 'database/v1.db'),
 }
 
-
-DATABASES = {
-    'default': SQLITE_CONN
-}
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
+    }
+else:
+    DATABASES = {
+        'default': SQLITE_CONN
+    }
 
 
 # Password validation

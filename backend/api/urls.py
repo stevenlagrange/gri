@@ -8,12 +8,12 @@ from api.endpoints.PostDetail import PostDetail
 from api.endpoints.PostList import PostList
 
 urlpatterns = [
-    url(r'^events/$', EventList.as_view()),
-    url(r'^events/(?P<pk>[0-9]+)/$', EventDetail.as_view()),
-    url(r'^posts/$', PostList.as_view()),
-    url(r'^posts/(?P<pk>[0-9]+)/$', PostDetail.as_view()),
-    url(r'^calendars/$', CalendarList.as_view()),
-    url(r'^calendars/(?P<pk>[0-9]+)/$', CalendarDetail.as_view()),
+    url(r'events/$', EventList.as_view()),
+    url(r'events/(?P<pk>[0-9]+)/$', EventDetail.as_view()),
+    url(r'posts/$', PostList.as_view()),
+    url(r'posts/(?P<pk>[0-9]+)/$', PostDetail.as_view()),
+    url(r'calendars/$', CalendarList.as_view()),
+    url(r'calendars/(?P<pk>[0-9]+)/$', CalendarDetail.as_view()),
 ]
 
 

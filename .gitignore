@@ -1,2 +1,5 @@
 environment/
 web-client/node_modules/
+web-client/dist/
+*.pyc
+*.pyo
