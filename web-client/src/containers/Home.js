@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row, CardPanel, Collection, CollectionItem } from 'react-materialize';
+import { Button } from 'semantic-ui-react';
 import Calendar from '../components/Calendar';
 import HomeFeed from '../components/HomeFeed';
 import API from '../api'

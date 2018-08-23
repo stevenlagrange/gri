@@ -1,14 +1,23 @@
-from api.models import Calendar
+from data.models import Calendar
 from api.serializers import CalendarSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import permissions
 from rest_framework import status
 
 class CalendarDetail(APIView):
     """
-    Retrieve, update or delete a snippet instance.
+        get:
+            Return calendar.
+
+        put:
+            Update calendar details.
+
+        delete:
+            Delete calendar.
     """
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def get_objects(self, id):
         try:
             return Calendar.objects.filter(id=id)

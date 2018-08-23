@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Preloader } from 'react-materialize';
 import API from '../../api';
-import Feed from '../Feed'
-import HomeFeedItem from './HomeFeedItem'
+import Feed from '../Feed';
+import HomeFeedItem from './HomeFeedItem';
+import PropTypes from 'prop-types';
 
 class HomeFeed extends Feed {
   constructor(props) {
@@ -25,6 +26,10 @@ class HomeFeed extends Feed {
     }
     return feedItems
   }
-}
+};
+
+HomeFeed.propTypes = {
+  items: PropTypes.array
+};
 
 export default HomeFeed;

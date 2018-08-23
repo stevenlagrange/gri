@@ -1,14 +1,23 @@
-from api.models import Event
+from data.models import Event
 from api.serializers import EventSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import permissions
 from rest_framework import status
 
 class EventDetail(APIView):
     """
-    Retrieve, update or delete a snippet instance.
+        get:
+            Return all Events.
+
+        put:
+            Update event details.
+
+        delete:
+            Delete event {id}.
     """
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def get_objects(self, id):
         try:
             return Event.objects.filter(id=id)

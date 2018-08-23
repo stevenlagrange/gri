@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from api.models import Event, Post, Calendar
+from data.models import Event, Post, Calendar
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

@@ -1,8 +1,9 @@
 import './events.scss'
 import React, { Component } from 'react';
-import { Row, Input, CardPanel, Button, Col } from 'react-materialize';
+import { Row, Input, CardPanel, Col } from 'react-materialize';
 import AddEvent from '../../components/AddEvent'
 import EventFeed from '../../components/EventFeed'
+import { Button } from 'semantic-ui-react'
 import API from '../../api'
 
 
@@ -25,6 +26,7 @@ class Events extends Component {
     return (
       <div className="events">
         <h1>Events</h1>
+        <Button>Click me! Semantic!</Button>
         <Row>
           <Col s={8}>
             <EventFeed items={this.state.events} />

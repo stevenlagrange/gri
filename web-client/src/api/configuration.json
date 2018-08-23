@@ -1,5 +1,5 @@
 {
-  "active": "production",
+  "active": "development",
 
   "production": {
     "url": "http://goraceinfo-dev.us-west-2.elasticbeanstalk.com/api/",

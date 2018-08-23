@@ -1,14 +1,23 @@
-from api.models import Post
+from data.models import Post
 from api.serializers import PostSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import permissions
 from rest_framework import status
 
 class PostDetail(APIView):
     """
-    Retrieve, update or delete a snippet instance.
+        get:
+            Return specific post.
+
+        put:
+            Update specific post.
+
+        delete:
+            Delete post.
     """
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def get_objects(self, id):
         try:
             return Post.objects.filter(id=id)
