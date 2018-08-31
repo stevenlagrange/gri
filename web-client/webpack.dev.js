@@ -9,6 +9,19 @@ module.exports = merge(common, {
     './src/index.js'
   ],
   devtool: 'inline-source-map',
+  module: {
+    rules: [
+        {
+            test: /\.(jpg|png|gif|svg|pdf|ico)$/,
+            use: [{
+                loader: 'url-loader',
+                options: {
+                    limit: 100000
+                },
+            }, ]
+        }
+    ]
+  },
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Preloader } from 'react-materialize';
-import API from '../../api';
 import FeedItem from './FeedItem';
 
 class Feed extends Component {

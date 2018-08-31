@@ -9,18 +9,18 @@ from rest_framework import status
 class PostList(APIView):
     """
         get:
-            Return all posts.
+            Return all `user` posts.
 
         post:
             Create a post.
     """
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    def get(self, request, format=None):
-        posts = Post.objects.all()
+    def get(self, request, user_id, format=None):
+        posts = Post.objects.filter(user_id=user_id)
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
-    def post(self, request, format=None):
+    def post(self, request, user_id, format=None):
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

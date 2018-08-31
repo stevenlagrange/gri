@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Preloader, CardPanel } from 'react-materialize';
-import API from '../../api';
+import { Dimmer, Loader, Segment, Grid } from 'semantic-ui-react';
+import { Data } from '../../_services/data';
 import CalendarItem from './CalendarItem';
 import DateHeader from './DateHeader';
 
@@ -14,8 +14,9 @@ class Calendar extends Component {
 
   componentDidMount() {
     let c = this;
-    API.getCalendars(1).then(function(response) {
-      c.setState({events : response.data[0].events});
+    Data.getUserCalendar().then(function(response) {
+      console.log(response.data);
+      c.setState({events : response.data.events});
     });
   }
 
@@ -31,7 +32,9 @@ class Calendar extends Component {
         />
       );
     } else {
-      calendarItems = <Preloader size='big'/>;
+      calendarItems = <Dimmer active>
+        <Loader content='Loading' />
+      </Dimmer>;
     }
     return calendarItems;
   }
@@ -65,7 +68,11 @@ class Calendar extends Component {
     return (
       <div>
         <h1>Calendar</h1>
-        { this.getCalendarItemsBasic() }
+        <Grid>
+          <Grid.Column width={8}>
+            { this.getCalendarItemsBasic() }
+          </Grid.Column>
+        </Grid>
       </div>
     )
   }

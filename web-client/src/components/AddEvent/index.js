@@ -1,7 +1,10 @@
+import './add-event.scss';
 import React, { Component } from 'react';
-import { Row, Input, CardPanel, Button, Col } from 'react-materialize';
-import API from '../../api';
-import './addevent.scss';
+import { Form, Button, Segment } from 'semantic-ui-react';
+import { Data } from '../../_services/data';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 class AddEvent extends Component {
 
@@ -10,13 +13,20 @@ class AddEvent extends Component {
     this.state = {
       title: '',
       description: '',
-      date: ''
+      address: '',
+      startDate: '',
+      startTime: 'T02:45',
+      endDate: '',
+      endTime: 'T03:45'
     };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleAddressChange = this.handleAddressChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleStartTimeChange = this.handleStartTimeChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
+    this.handleEndTimeChange = this.handleEndTimeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -32,8 +42,20 @@ class AddEvent extends Component {
     this.setState({address: event.target.value});
   }
 
-  handleDateChange(event) {
-    this.setState({date: event.target.value});
+  handleStartDateChange(event) {
+    this.setState({startDate: event.target.value});
+  }
+
+  handleStartTimeChange(event) {
+    this.setState({startTime: event.target.value});
+  }
+
+  handleEndDateChange(event) {
+    this.setState({endDate: event.target.value});
+  }
+
+  handleEndTimeChange(event) {
+    this.setState({endTime: event.target.value});
   }
 
   handleSubmit(e) {
@@ -42,8 +64,10 @@ class AddEvent extends Component {
       title: this.state.title,
       description: this.state.description,
       address: this.state.address,
-      date: this.state.date
+      start: this.state.startDate + this.state.startTime,
+      end: this.state.endDate + this.state.endTime
     };
+    console.log(form);
 
     let test = {
       "title": "Race title",
@@ -53,7 +77,7 @@ class AddEvent extends Component {
       "end": "2018-08-07T02:45"
     };
 
-    API.createEvent(test)
+    Data.createEvent(form)
       .then(function(response) {
         console.log(response);
     }).catch(function(response) {
@@ -64,21 +88,27 @@ class AddEvent extends Component {
 
   render() {
     return (
-    <Row>
-      <form onSubmit={this.handleSubmit}>
-        <CardPanel>
-          <Row>
-            <Input s={12} label="Title" value={this.state.title} onChange={this.handleTitleChange}/>
-            <Input s={12} type='textarea' label="Description" value={this.state.description} onChange={this.handleDescriptionChange}/>
-            <Input s={12} label="Address" value={this.state.address} onChange={this.handleAddressChange}/>
-            <Input s={12} name='on' type='date' label="Date" onChange={this.handleDateChange} />
-          </Row>
-          <Row>
-          <Button className="add-button">Add</Button>
-          </Row>
-        </CardPanel>
-      </form>
-    </Row>
+      <Segment>
+        <Form className='event-form' onSubmit={this.handleSubmit}>
+          <Form.Field>
+            <Form.Input placeholder="Title" value={this.state.title} onChange={this.handleTitleChange}/>
+          </Form.Field>
+          <Form.Field>
+            <Form.Input placeholder="Desription" value={this.state.description} onChange={this.handleDescriptionChange}/>
+          </Form.Field>
+          <Form.Field>
+            <Form.Input placeholder="Address" value={this.state.address} onChange={this.handleAddressChange}/>
+          </Form.Field>
+          <Form.Field>
+            <Form.Input placeholder="Start" type='date' onChange={this.handleStartDateChange}/>
+          </Form.Field>
+          <Form.Field>
+            <Form.Input placeholder="End" type='date' onChange={this.handleEndDateChange}/>
+            <DatePicker onChange={this.handleEndDateChange}/>
+          </Form.Field>
+          <Button primary className="right floated" type="submit">Add</Button>
+        </Form>
+      </Segment>
     );
   }
 }

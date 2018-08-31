@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from data.models import Event, Post, Calendar
+from data.models import Event, Post, Calendar, Profile
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'groups')
+        fields = ('id', 'username', 'first_name', 'last_name')
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -18,7 +18,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('title', 'description', 'start', 'end')
+        fields = ('eid', 'title', 'description', 'start', 'end', 'created_by')
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -33,3 +33,10 @@ class CalendarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calendar
         fields = ('user', 'events')
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ('user', 'bio', 'location', 'birth_date')

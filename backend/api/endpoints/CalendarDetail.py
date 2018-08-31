@@ -1,5 +1,5 @@
-from data.models import Calendar
-from api.serializers import CalendarSerializer
+from data.models import Calendar, Event
+from api.serializers import CalendarSerializer, EventSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -17,17 +17,27 @@ class CalendarDetail(APIView):
         delete:
             Delete calendar.
     """
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def get_objects(self, id):
         try:
-            return Calendar.objects.filter(id=id)
+            return Calendar.objects.get(user_id=id)
         except Calendar.DoesNotExist:
             raise Http404
 
-    def get(self, request, id, format=None):
-        calendar = self.get_objects(id)
-        serializer = CalendarSerializer(calendar, many=True)
+    def get(self, request, user_id, format=None):
+        calendar = self.get_objects(user_id)
+        print(calendar)
+        serializer = CalendarSerializer(calendar)
         return Response(serializer.data)
+
+    def post(self, request, user_id, eid, format=None):
+        # Add 'event' to 'user' 'calendar'.
+        calendar = self.get_objects(user_id)
+        event = Event.objects.get(eid=eid)
+        calendar.events.add(event)
+        serializer = CalendarSerializer(calendar)
+        return Response(serializer.data)
+
 
     def put(self, request, id, format=None):
         calendar = self.get_objects(id)

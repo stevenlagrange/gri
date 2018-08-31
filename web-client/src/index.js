@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App'
-import {
-  BrowserRouter as Router,
-  browserHistory
-} from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import history from './history.js'
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 ReactDOM.render(
-  <Router history={ browserHistory }>
-    <App />
-  </Router>,
-  document.getElementById('app')
+  <ParallaxProvider>
+    <Router history={ history }>
+      <App />
+    </Router>
+  </ParallaxProvider>,
+  document.getElementById('root')
 );
 
 module.hot.accept();

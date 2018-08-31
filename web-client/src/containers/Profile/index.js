@@ -1,39 +1,64 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-materialize';
+import { Grid } from 'semantic-ui-react';
 import ProfileFeed from '../../components/ProfileFeed';
-import ProfileHeader from '../../components/ProfileHeader';
+import ProfileHeader from './ProfileHeader';
 import ProfileUtilites from '../../components/ProfileUtilites';
 import AddPost from '../../components/AddPost';
-import API from '../../api';
+import { Data } from '../../_services/data';
+import { Authorization } from '../../_services/authorization';
 import './profile.scss';
+import Errors from '../../_constants/errors';
+import axios from 'axios';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      profile : {
+        user: {
+          username: "",
+          first_name: "",
+          last_name: ""
+        }
+      },
+      posts : []
+    }
     this.updateView = this.updateView.bind(this);
   }
 
   componentDidMount() {
-    // Load server data asynchronously.
-    this.getPosts();
+    Authorization.verifyUser().then(this.profileLoader());
   }
+
+  profileLoader() {
+    this.getPosts();
+    this.getProfile();
+  }
+
 
   sortByDate(posts) {
     // Used to sort posts by date.
-    console.log(posts);
     return posts.sort(function(a,b){
       return new Date(b["created_date"]) - new Date(a["created_date"]);
     });
   }
 
+  getProfile() {
+    // Retrieve 'Profile' from the server.
+    Data.getProfileDetails()
+      .then((response) => { this.setState({profile : response.data}) })
+      .catch((response) => {
+        console.log(Errors.LOADING_RESOURCE_ERROR)
+      });
+  }
+
   getPosts() {
     // Retrieve 'Posts' from the server.
-    let c = this;
-    API.getPosts(1).then(function(response) {
-      let sorted = c.sortByDate(response.data)
-      c.setState({posts : sorted});
-    });
+    Data.getPosts()
+      .then((response) => { this.setState({posts : this.sortByDate(response.data)}) })
+      .catch((response) => {
+        console.log(Errors.LOADING_RESOURCE_ERROR)
+      });
   }
 
   updateView() {
@@ -44,19 +69,24 @@ class Profile extends Component {
   render() {
     return (
       <div className="profile">
-        <Row>
-          <Col s={4}>
-            <ProfileHeader
-              name={'Steven Lagrange'}
-              bio={'Computer Engineer'}
-            />
-            <ProfileUtilites />
-          </Col>
-          <Col s={8}>
-            <AddPost updateView={this.updateView}/>
-            <ProfileFeed view={this.state.view} items={this.state.posts} />
-          </Col>
-        </Row>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={4}>
+              <ProfileHeader
+                firstName={ this.state.profile.user.first_name }
+                lastName={ this.state.profile.user.last_name }
+                username={ this.state.profile.user.username }
+                bio={ this.state.profile.bio }
+                location={ this.state.profile.location }
+              />
+              <ProfileUtilites />
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <AddPost updateView={this.updateView}/>
+              <ProfileFeed view={this.state.view} items={this.state.posts} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }

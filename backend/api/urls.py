@@ -10,17 +10,19 @@ from api.endpoints.EventDetail import EventDetail
 from api.endpoints.EventList import EventList
 from api.endpoints.PostDetail import PostDetail
 from api.endpoints.PostList import PostList
+from api.endpoints.ProfileDetail import ProfileDetail
 
 urlpatterns = [
     url(r'login/$', login),
-    url(r'events/$', EventList.as_view()),
-    url(r'events/(?P<pk>[0-9]+)/$', EventDetail.as_view()),
-    url(r'posts/$', PostList.as_view()),
-    url(r'posts/(?P<pk>[0-9]+)/$', PostDetail.as_view()),
-    url(r'calendars/$', CalendarList.as_view()),
-    url(r'calendars/(?P<pk>[0-9]+)/$', CalendarDetail.as_view()),
-    url(r'^docs/', include_docs_urls(title='GoRaceInfo')),
-    url(r'^auth/', include('api.authenticate')),
+    url(r'calendars/(?P<user_id>[0-9]+)/$', CalendarList.as_view(), name='user_calendar'),
+    url(r'calendars/(?P<user_id>[0-9]+)/(?P<eid>[0-9]+)/$', CalendarDetail.as_view(), name='user_calendar_event'),
+    url(r'events/$', EventList.as_view(), name='all_events'),
+    url(r'events/(?P<eid>[0-9]+)/$', EventDetail.as_view(), name='event_detail'),
+    url(r'posts/(?P<user_id>[0-9]+)/$', PostList.as_view(), name='user_posts'),
+    url(r'posts/(?P<user_id>[0-9]+)/(?P<pid>[0-9]+)/$', PostDetail.as_view(), name='post_detail'),
+    url(r'profiles/(?P<user_id>[0-9]+)/$', ProfileDetail.as_view(), name='profile_detail'),
+    url(r'^docs/', include_docs_urls(title='GoRaceInfo'), name='docs'),
+    url(r'^auth/', include('api.authenticate.main'), name='authenticate'),
 ]
 
 

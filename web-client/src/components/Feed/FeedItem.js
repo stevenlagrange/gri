@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CardPanel } from 'react-materialize';
-import DateUtil from '../../util/DateUtil'
+import dateFormatter from '../../_utilities/dateFormatter';
 
 class FeedItem extends Component {
   constructor(props) {

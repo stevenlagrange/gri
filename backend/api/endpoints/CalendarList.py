@@ -9,18 +9,19 @@ from rest_framework import status
 class CalendarList(APIView):
     """
         get:
-            Return all Calendars.
+            Return 'user' Calendar.
 
         post:
             Create a calendar.
     """
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    def get(self, request, format=None):
-        calendars = Calendar.objects.all()
-        serializer = CalendarSerializer(calendars, many=True)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    def get(self, request, user_id, format=None):
+        calendars = Calendar.objects.get(user_id=user_id)
+        serializer = CalendarSerializer(calendars)
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        # Maybe create calendar when the user is created.
         serializer = CalendarSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

@@ -1,6 +1,6 @@
+import './home-feed.scss';
 import React, { Component } from 'react';
-import { Preloader } from 'react-materialize';
-import API from '../../api';
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
 import Feed from '../Feed';
 import HomeFeedItem from './HomeFeedItem';
 import PropTypes from 'prop-types';
@@ -22,7 +22,9 @@ class HomeFeed extends Feed {
         />
       );
     } else {
-      feedItems = <Preloader size='big'/>;
+      feedItems = <Dimmer active>
+        <Loader content='Loading' />
+      </Dimmer>
     }
     return feedItems
   }

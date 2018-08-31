@@ -1,6 +1,7 @@
+import './add-post.scss'
 import React, { Component } from 'react';
-import { Row, Input, CardPanel, Button, Col } from 'react-materialize';
-import API from '../../api'
+import { Form, Button, Segment } from 'semantic-ui-react';
+import { Data } from '../../_services/data';
 
 class AddPost extends Component {
 
@@ -43,10 +44,11 @@ class AddPost extends Component {
     let form = {
       title: this.state.title,
       data: this.state.post,
-      user: 1
+      user: 2
     };
+    console.log(form);
 
-    API.createPost(form)
+    Data.createPost('post', form)
       .then(function(response) {
         console.log(response);
         c.handleUpdateView();
@@ -59,19 +61,17 @@ class AddPost extends Component {
 
   render() {
     return (
-    <Row>
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <CardPanel>
-          <Row>
-            <Input s={12} label="Title" value={this.state.title} onChange={this.handleTitleChange}/>
-            <Input s={12} type='textarea' label="Let's hear from you..." value={this.state.post} onChange={this.handlePostChange}/>
-          </Row>
-          <Row>
-          <Button className="add-button">Create Post</Button>
-          </Row>
-        </CardPanel>
-      </form>
-    </Row>
+      <Segment>
+        <Form className="post-form" onSubmit={this.handleSubmit.bind(this)}>
+          <Form.Field>
+            <Form.Input s={12} label="Title" value={this.state.title} onChange={this.handleTitleChange}/>
+          </Form.Field>
+          <Form.Field>
+            <Form.Input s={12} type='textarea' label="Let's hear from you..." value={this.state.post} onChange={this.handlePostChange}/>
+          </Form.Field>
+          <Button className="right floated primary" type="submit">Create Post</Button>
+        </Form>
+      </Segment>
     );
   }
 }

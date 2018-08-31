@@ -1,8 +1,8 @@
+import './profile-feed.scss';
 import React, { Component } from 'react';
-import { Preloader } from 'react-materialize';
-import API from '../../api';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import Feed from '../Feed'
-import ProfileFeedItem from './ProfileFeedItem'
+import PostView from '../PostView'
 
 class ProfileFeed extends Feed {
   constructor(props) {
@@ -14,14 +14,16 @@ class ProfileFeed extends Feed {
     if(this.props.items) {
       const data = this.props.items;
       feedItems = data.map((item, i) =>
-        <ProfileFeedItem key={i}
+        <PostView key={i}
           title={item.title}
           data={item.data}
           created_date={item.created_date}
         />
       );
     } else {
-      feedItems = <Preloader size='big'/>;
+      feedItems = <Dimmer active>
+        <Loader content='Loading' />
+      </Dimmer>;
     }
     return feedItems
   }

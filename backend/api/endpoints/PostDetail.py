@@ -8,6 +8,8 @@ from rest_framework import status
 
 class PostDetail(APIView):
     """
+        Return a detailed response.
+
         get:
             Return specific post.
 
@@ -20,17 +22,17 @@ class PostDetail(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def get_objects(self, id):
         try:
-            return Post.objects.filter(id=id)
+            return Post.objects.get(pid=id)
         except Post.DoesNotExist:
             raise Http404
 
-    def get(self, request, id, format=None):
-        post = self.get_objects(id)
+    def get(self, request, user_id, format=None):
+        post = self.get_objects(user_id)
         serializer = PostSerializer(post)
         return Response(serializer.data)
 
-    def put(self, request, id, format=None):
-        post = self.get_objects(id)
+    def put(self, request, user_id, format=None):
+        post = self.get_objects(user_id)
         serializer = PostSerializer(owner, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -38,6 +40,6 @@ class PostDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id, format=None):
-        post = self.get_objects(id)
+        post = self.get_objects(user_id)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

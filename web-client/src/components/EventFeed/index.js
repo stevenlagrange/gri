@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Preloader } from 'react-materialize';
-import EventItem from './EventItem';
+import { Dimmer, Loader } from 'semantic-ui-react';
+import EventFeedItem from './EventFeedItem';
 
 
 class EventFeed extends Component {
@@ -14,14 +14,16 @@ class EventFeed extends Component {
     if(this.props.items) {
       const events = this.props.items;
       eventItems = events.map((item, i) =>
-        <EventItem key={i}
+        <EventFeedItem key={i}
           title={item.title}
           description={item.description}
           start={item.start}
         />
       );
     } else {
-      eventItems = <Preloader size='big'/>;
+      eventItems = <Dimmer active>
+        <Loader content='Loading' />
+      </Dimmer>;
     }
     return eventItems;
   }

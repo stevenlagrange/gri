@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Icon, CardPanel} from 'react-materialize';
-import DateUtil from '../../util/DateUtil'
+import { Segment } from 'semantic-ui-react';
+import dateFormatter from '../../_utilities/dateFormatter';
 
 class DateHeader extends Component {
   render() {
@@ -8,9 +8,9 @@ class DateHeader extends Component {
     date = DateUtil.formatDate(this.props.date);
 
     return (
-      <CardPanel className="lighten-4 black-text">
+      <Segment>
         <p>{ date }</p>
-      </CardPanel>
+      </Segment>
     );
   }
 }

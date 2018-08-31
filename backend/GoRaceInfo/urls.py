@@ -17,10 +17,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.urls import path
 from django.contrib import admin
-from GoRaceInfo.views import greeting
 
 urlpatterns = [
     path('api/v1/', include('api.urls')),
     path('admin/', admin.site.urls),
-    #url('.*', greeting),
+    path('/', include('services.urls')),
 ]

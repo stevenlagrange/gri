@@ -1,22 +1,60 @@
+import './splash.scss';
 import React, { Component } from 'react';
-import { Parallax } from 'react-materialize';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
+
+import { Authorization } from '../../_services/authorization';
+import App from '../../App';
+import LoginForm from '../../components/LoginForm';
+import RegisterForm from '../../components/RegisterForm';
+import { Parallax } from 'react-scroll-parallax';
+import { Button, Container, Menu } from 'semantic-ui-react';
+import logo from '../../images/logo.png';
+
+
 
 class Splash extends Component {
 
+  state = {
+    redirectToReferrer: false
+  };
+
+  handleLogin(username, password) {
+    Authorization.login(username, password, () => {
+      this.setState({ redirectToReferrer: true });
+    });
+  }
+
   render() {
+    const { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer) {
+      return <App />;
+    }
+
     return (
       <div className="splash">
-        <Parallax imageSrc="http://materializecss.com/images/parallax1.jpg"/>
-        <div className="section white">
-          <div className="row container">
-            <h2 className="header">Go Race Info</h2>
-            <p className="grey-text text-darken-3 lighten-3">Get the most up to date on racing events around you.</p>
-          </div>
-        </div>
-        <Parallax imageSrc="http://materializecss.com/images/parallax2.jpg"/>
+        <Menu borderless inverted>
+          <Menu.Item header>
+            <h1>GoRaceInfo</h1>
+          </Menu.Item>
+          <Menu.Menu position="right">
+            <Menu.Item as={ Link }  to="login"  name='Sign In'/>
+            <Menu.Item as={ Link }  to="register"  name='Register'/>
+          </Menu.Menu>
+        </Menu>
+        <Container>
+          <h1>Welcome to GoRaceInfo.com!</h1>
+        </Container>
       </div>
     );
   }
 }
 
-export default Splash;
+
+export default Splash
