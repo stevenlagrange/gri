@@ -1,28 +1,33 @@
+import './profile.scss';
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Header, Icon } from 'semantic-ui-react';
 import ProfileFeed from '../../components/ProfileFeed';
 import ProfileHeader from './ProfileHeader';
 import ProfileUtilites from '../../components/ProfileUtilites';
 import AddPost from '../../components/AddPost';
-import { Data } from '../../_services/data';
-import { Authorization } from '../../_services/authorization';
-import './profile.scss';
+import Calendar from '../../components/Calendar';
+import Data from '../../_services/data';
+import Authorization from '../../_services/authorization';
 import Errors from '../../_constants/errors';
-import axios from 'axios';
+
+function sortByDate(items, key) {
+  return items.sort((a, b) => new Date(b[key]) - new Date(a[key]));
+}
+
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile : {
+      profile: {
         user: {
-          username: "",
-          first_name: "",
-          last_name: ""
-        }
+          username: '',
+          first_name: '',
+          last_name: '',
+        },
       },
-      posts : []
-    }
+      posts: [],
+    };
     this.updateView = this.updateView.bind(this);
   }
 
@@ -30,24 +35,11 @@ class Profile extends Component {
     Authorization.verifyUser().then(this.profileLoader());
   }
 
-  profileLoader() {
-    this.getPosts();
-    this.getProfile();
-  }
-
-
-  sortByDate(posts) {
-    // Used to sort posts by date.
-    return posts.sort(function(a,b){
-      return new Date(b["created_date"]) - new Date(a["created_date"]);
-    });
-  }
-
   getProfile() {
     // Retrieve 'Profile' from the server.
     Data.getProfileDetails()
-      .then((response) => { this.setState({profile : response.data}) })
-      .catch((response) => {
+      .then((response) => { this.setState({ profile: response.data }); })
+      .catch(() => {
         console.log(Errors.LOADING_RESOURCE_ERROR)
       });
   }
@@ -55,10 +47,16 @@ class Profile extends Component {
   getPosts() {
     // Retrieve 'Posts' from the server.
     Data.getPosts()
-      .then((response) => { this.setState({posts : this.sortByDate(response.data)}) })
-      .catch((response) => {
+      .then((response) => { this.setState({ posts: sortByDate(response.data, 'created_date') }); })
+      .catch(() => {
         console.log(Errors.LOADING_RESOURCE_ERROR)
       });
+  }
+
+
+  profileLoader() {
+    this.getPosts();
+    this.getProfile();
   }
 
   updateView() {
@@ -67,23 +65,38 @@ class Profile extends Component {
   }
 
   render() {
+    const {
+      profile: {
+        user: {
+          first_name: firstName,
+          last_name: lastName,
+          username: userName,
+        },
+        bio,
+        location,
+      },
+      posts,
+      view,
+    } = this.state;
+
     return (
       <div className="profile">
         <Grid>
           <Grid.Row>
-            <Grid.Column width={4}>
+            <Grid.Column width={8}>
               <ProfileHeader
-                firstName={ this.state.profile.user.first_name }
-                lastName={ this.state.profile.user.last_name }
-                username={ this.state.profile.user.username }
-                bio={ this.state.profile.bio }
-                location={ this.state.profile.location }
+                firstName={firstName}
+                lastName={lastName}
+                username={userName}
+                bio={bio}
+                location={location}
               />
               <ProfileUtilites />
+              <AddPost updateView={this.updateView} />
+              <ProfileFeed view={view} items={posts} />
             </Grid.Column>
             <Grid.Column width={8}>
-              <AddPost updateView={this.updateView}/>
-              <ProfileFeed view={this.state.view} items={this.state.posts} />
+              <Calendar />
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -91,5 +104,6 @@ class Profile extends Component {
     );
   }
 }
+
 
 export default Profile;

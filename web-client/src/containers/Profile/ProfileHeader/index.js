@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
-import { Preloader, CardPanel } from 'react-materialize';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Header, Icon, List } from 'semantic-ui-react';
 import './profile-header.scss'
 
-class ProfileHeader extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-
-  render() {
-    return (
-      <div className="profile-header">
-        <Segment>
-          <h4>{ this.props.firstName } { this.props.lastName }</h4>
-          <p>{ this.props.username }</p>
-          <p>{ this.props.bio }</p>
-          <p>{ this.props.location }</p>
-        </Segment>
-      </div>
-    )
-  }
+function ProfileHeader({ username, firstName, lastName, bio, location}) {
+  return (
+    <div className="profile-header">
+      <Segment textAlign="center">
+        <Header as="h2" icon textAlign="center">
+          <Icon name="user" circular />
+          <Header.Content>{username}</Header.Content>
+        </Header>
+        <p>{bio}</p>
+        <List>
+          <List.Item icon="users" content="Semantic UI" />
+          <List.Item icon="marker" content={location} />
+          <List.Item icon="mail" content="slagrang@ualberta.ca" />
+          <List.Item icon="linkify" content={<a href='http://www.uhpfire.com'>uhpfire.com</a>} />
+        </List>
+      </Segment>
+    </div>
+  )
 }
 
 export default ProfileHeader;

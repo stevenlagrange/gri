@@ -1,27 +1,14 @@
 import './splash.scss';
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter
-} from "react-router-dom";
-
-import { Authorization } from '../../_services/authorization';
+import { Link } from 'react-router-dom';
+import { Container, Menu } from 'semantic-ui-react';
 import App from '../../App';
-import LoginForm from '../../components/LoginForm';
-import RegisterForm from '../../components/RegisterForm';
-import { Parallax } from 'react-scroll-parallax';
-import { Button, Container, Menu } from 'semantic-ui-react';
-import logo from '../../images/logo.png';
-
+import Authorization from '../../_services/authorization';
 
 
 class Splash extends Component {
-
   state = {
-    redirectToReferrer: false
+    redirectToReferrer: false,
   };
 
   handleLogin(username, password) {
@@ -44,8 +31,8 @@ class Splash extends Component {
             <h1>GoRaceInfo</h1>
           </Menu.Item>
           <Menu.Menu position="right">
-            <Menu.Item as={ Link }  to="login"  name='Sign In'/>
-            <Menu.Item as={ Link }  to="register"  name='Register'/>
+            <Menu.Item as={Link} to="login" name="Sign In" />
+            <Menu.Item as={Link} to="register" name="Register" />
           </Menu.Menu>
         </Menu>
         <Container>
@@ -57,4 +44,4 @@ class Splash extends Component {
 }
 
 
-export default Splash
+export default Splash;

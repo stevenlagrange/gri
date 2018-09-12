@@ -1,4 +1,3 @@
-
 /**
  *
  * PrivateRoute
@@ -9,16 +8,21 @@
  */
 
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import { browserStorage } from '../../_utilities/browserStorage';
-import Splash from '../../containers/Splash'
+import { Route } from 'react-router-dom';
+import browserStorage from '../../_utilities/browserStorage';
+import Login from '../Login';
+import ErrorBoundary from '../../components/ErrorBoundary';
+
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render= { (props) => (
-    browserStorage.getToken() !== null
-        ? <Component {...props} />
-        : <Splash/>
-  )}/>
+  <Route
+    {...rest}
+    render={props => (
+      browserStorage.getToken() !== null
+        ? <ErrorBoundary><Component {...props} /></ErrorBoundary>
+        : <Login />
+    )}
+  />
 );
 
 export default PrivateRoute;

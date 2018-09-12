@@ -1,26 +1,37 @@
 import React, { Component } from 'react';
-import { Button, Header, Icon, Modal } from 'semantic-ui-react';
+import {
+  Button,
+  Header,
+  Icon,
+  Modal,
+} from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+
 
 class ErrorModal extends Component {
-
   constructor(props) {
     super(props);
 
-    this.state = {}
+    this.state = {};
   }
 
   render() {
+    const {
+      title,
+      message,
+    } = this.props;
     return (
-      <Modal open={ true } basic size='small'>
-        <Header icon='flag' content={this.props.title} />
+      <Modal open={true} basic size="small">
+        <Header icon="flag" content={title} />
         <Modal.Content>
           <p>
-            { this.props.message }
+            {message}
           </p>
         </Modal.Content>
         <Modal.Actions>
           <Button inverted>
-            <Icon name='checkmark' /> Okay
+            <Icon name="checkmark" />
+            Okay
           </Button>
         </Modal.Actions>
       </Modal>
@@ -28,5 +39,10 @@ class ErrorModal extends Component {
   }
 }
 
+
+ErrorModal.propTypes = {
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+};
 
 export default ErrorModal;

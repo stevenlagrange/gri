@@ -56,7 +56,7 @@ JWT_AUTH = {
 
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'api.utils.jwt_response_payload_handler',
 
-    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_SECRET_KEY': 'odjl%g#b-zcgo2iz71@dtj8arf0if5zp0v6c6=e#&91r4jxpr8',
     'JWT_GET_USER_SECRET_KEY': None,
     'JWT_PUBLIC_KEY': None,
     'JWT_PRIVATE_KEY': None,
@@ -141,3 +141,60 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEBUG = True
+CORS_ORIGIN_ALLOW_ALL = True
+SECURE_SSL_REDIRECT = False
+
+
+if (DEBUG):
+    '''
+        Production Settings
+    '''
+    ALLOWED_HOSTS = ['*']
+
+
+
+    if 'RDS_DB_NAME' in os.environ:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': os.environ['RDS_DB_NAME'],
+                'USER': os.environ['RDS_USERNAME'],
+                'PASSWORD': os.environ['RDS_PASSWORD'],
+                'HOST': os.environ['RDS_HOSTNAME'],
+                'PORT': os.environ['RDS_PORT'],
+            }
+        }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'database/v1.db'),
+            }
+        }
+
+    '''
+    CORS_ORIGIN_WHITELIST = (
+        'http://goraceinfo.com.s3-website-us-west-2.amazonaws.com',
+    )
+
+    CORS_ORIGIN_REGEX_WHITELIST = (
+        'http://goraceinfo.com.s3-website-us-west-2.amazonaws.com',
+    )
+    '''
+
+else:
+    '''
+        Development Settings
+    '''
+    SECURE_SSL_REDIRECT = False
+
+    ALLOWED_HOSTS = ['*']
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, '../database/v1.db'),
+        }
+    }

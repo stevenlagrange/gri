@@ -1,11 +1,10 @@
-import axios from 'axios';
-
 const TOKEN_KEY = 'access_token';
-const USER_KEY = 'user';
+const UID_KEY = 'uid';
+const USERNAME_KEY = 'username';
+const DISPLAY_NAME_KEY = 'displayName';
 
-const parse = JSON.parse;
-const stringify = JSON.stringify;
 
+const { parse, stringify } = JSON;
 
 function get(key) {
   if (localStorage && localStorage.getItem(key)) {
@@ -19,8 +18,16 @@ function getToken() {
   return get(TOKEN_KEY);
 }
 
-function getUserInfo() {
-  return get(USER_KEY);
+function getUserId() {
+  return get(UID_KEY);
+}
+
+function getUsername() {
+  return get(USERNAME_KEY);
+}
+
+function getDisplayName() {
+  return get(DISPLAY_NAME_KEY);
 }
 
 function set(key, value, islocalStorage) {
@@ -34,8 +41,12 @@ function setToken(token) {
   return set(TOKEN_KEY, token, true);
 }
 
-function setUserInfo(id) {
-  return set(USER_KEY, id, true);
+function setUserInfo(user) {
+  console.log(user);
+  set(UID_KEY, user.id, true);
+  set(USERNAME_KEY, user.username, true);
+  set(DISPLAY_NAME_KEY, `${user.first_name} ${user.last_name}`, true);
+  return true;
 }
 
 function clear(key) {
@@ -50,15 +61,19 @@ function clearToken() {
 }
 
 function clearUserInfo() {
-  return clear(USER_KEY);
+  clear(UID_KEY);
+  clear(USERNAME_KEY);
+  clear(DISPLAY_NAME_KEY);
+  return true;
 }
 
-
-export const browserStorage = {
+export default {
   getToken,
+  getUserId,
+  getUsername,
+  getDisplayName,
   setToken,
-  clearToken,
-  getUserInfo,
   setUserInfo,
-  clearUserInfo
+  clearToken,
+  clearUserInfo,
 };

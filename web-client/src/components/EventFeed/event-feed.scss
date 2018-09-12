@@ -1,7 +1,6 @@
 @import '../../styles/theme';
 
-.event-feed-item {
-  height: 100%;
+.ui.items>.item {
+  background-color: white;
   padding: 10px;
-  overflow: hidden;
 }

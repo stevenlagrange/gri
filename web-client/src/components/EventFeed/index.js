@@ -1,42 +1,44 @@
-import React, { Component } from 'react';
-import { Dimmer, Loader } from 'semantic-ui-react';
-import EventFeedItem from './EventFeedItem';
+import './event-feed.scss';
+import React from 'react';
+import { Dimmer, Loader, Item } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import EventItem from '../EventItem';
 
 
-class EventFeed extends Component {
-  constructor(props) {
-    super(props);
+function getEventItems(items) {
+  let eventItems;
+  if (items) {
+    eventItems = items.map(item => (
+      <EventItem
+        key={item.eid}
+        id={item.eid}
+        title={item.title}
+        description={item.description}
+        start={item.start}
+      />
+    ));
+  } else {
+    eventItems = (
+      <Dimmer active>
+        <Loader content="Loading" />
+      </Dimmer>
+    );
   }
-
-
-  getEventItems() {
-    let eventItems;
-    if(this.props.items) {
-      const events = this.props.items;
-      eventItems = events.map((item, i) =>
-        <EventFeedItem key={i}
-          title={item.title}
-          description={item.description}
-          start={item.start}
-        />
-      );
-    } else {
-      eventItems = <Dimmer active>
-        <Loader content='Loading' />
-      </Dimmer>;
-    }
-    return eventItems;
-  }
-
-  render() {
-    return (
-      <div className='event-feed'>
-        <div className='feed-items'>
-          { this.getEventItems() }
-        </div>
-      </div>
-    )
-  }
+  return eventItems;
 }
+
+function EventFeed({ items }) {
+  return (
+    <div className="event-feed">
+      <Item.Group>
+        { getEventItems(items) }
+      </Item.Group>
+    </div>
+  );
+}
+
+EventFeed.propTypes = {
+  items: PropTypes.array.isRequired,
+};
 
 export default EventFeed;

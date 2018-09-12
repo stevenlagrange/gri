@@ -1,18 +1,18 @@
 
 const ERRORS = {
 
-  LOADING_RESOURCE_ERROR : {
-    Title: 'Loading Resource Error',
-    Detailed: 'An error occured while loading resource.',
-    Resolve: 'Contact support or try reloading the page.'
+  404: {
+    title: 'Loading Resource Error',
+    message: 'An error occured while loading resource.',
+    resolve: 'Contact support or try reloading the page.',
   },
 
-  LOGIN_ERROR : {
-    Title: 'Login Error',
-    Detailed: 'User has failed to login.',
-    Resolve: 'Contact support or try logging in again.'
-  }
+  LOGIN_ERROR: {
+    title: 'Login Error',
+    message: 'User has failed to login.',
+    resolve: 'Contact support or try logging in again.',
+  },
 
-}
+};
 
 export default ERRORS;

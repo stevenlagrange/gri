@@ -1,17 +1,16 @@
-import './add-post.scss'
+import './add-post.scss';
 import React, { Component } from 'react';
 import { Form, Button, Segment } from 'semantic-ui-react';
-import { Data } from '../../_services/data';
+import Data from '../../_services/data';
 
 class AddPost extends Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      title : '',
-      post: ''
-    }
+      title: '',
+      post: '',
+    };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handlePostChange = this.handlePostChange.bind(this);
@@ -21,11 +20,11 @@ class AddPost extends Component {
   }
 
   handleTitleChange(event) {
-    this.setState({title: event.target.value});
+    this.setState({ title: event.target.value });
   }
 
   handlePostChange(event) {
-    this.setState({post: event.target.value});
+    this.setState({ post: event.target.value });
   }
 
   handleUpdateView() {
@@ -33,41 +32,48 @@ class AddPost extends Component {
   }
 
   clearForm() {
-    this.setState({title: ""});
-    this.setState({post: ""});
+    this.setState({ title: '' }, { post: '' });
   }
 
   handleSubmit(e) {
-    let c = this;
-
     e.preventDefault();
-    let form = {
-      title: this.state.title,
-      data: this.state.post,
-      user: 2
+    const {
+      title,
+      post,
+    } = this.state;
+
+    const form = {
+      title,
+      data: post,
+      user: 2,
     };
     console.log(form);
 
     Data.createPost('post', form)
-      .then(function(response) {
+      .then((response) => {
         console.log(response);
-        c.handleUpdateView();
-        c.clearForm();
-    }).catch(function(response) {
+        this.handleUpdateView();
+        this.clearForm();
+      }).catch((response) => {
         console.log(response);
-    });
+      });
   }
 
 
   render() {
+    const {
+      title,
+      post,
+    } = this.state;
+
     return (
       <Segment>
-        <Form className="post-form" onSubmit={this.handleSubmit.bind(this)}>
+        <Form className="post-form" onSubmit={this.handleSubmit}>
           <Form.Field>
-            <Form.Input s={12} label="Title" value={this.state.title} onChange={this.handleTitleChange}/>
+            <Form.Input s={12} label="Title" value={title} onChange={this.handleTitleChange} />
           </Form.Field>
           <Form.Field>
-            <Form.Input s={12} type='textarea' label="Let's hear from you..." value={this.state.post} onChange={this.handlePostChange}/>
+            <Form.Input s={12} type="textarea" label="Let's hear from you..." value={post} onChange={this.handlePostChange} />
           </Form.Field>
           <Button className="right floated primary" type="submit">Create Post</Button>
         </Form>

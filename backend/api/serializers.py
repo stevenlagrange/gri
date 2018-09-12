@@ -18,7 +18,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('eid', 'title', 'description', 'start', 'end', 'created_by')
+        fields = ('eid', 'title', 'description', 'start', 'end', 'created_by', 'address', 'city', 'country')
 
 
 class PostSerializer(serializers.ModelSerializer):
