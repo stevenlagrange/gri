@@ -1,4 +1,4 @@
-##GoRaceInfo is a fictional social media site for racing enthusiasts.
+## GoRaceInfo is a fictional social media site for racing enthusiasts.
 Built using ReactJs and Django.
 
 #Getting Started:
@@ -10,7 +10,7 @@ Requires:
 For MacOS
 
 
-##Backend:
+## Backend:
 1. Create Python Virtual Environment and Activate.
 ```
   pip3 install virtualenv
@@ -30,7 +30,7 @@ For MacOS
 The server is now listening at 'http://localhost:8080'.
 
 
-##Web Client:
+## Web Client:
 1. Download dependencies.
 ```
   cd web-client
@@ -43,7 +43,7 @@ The server is now listening at 'http://localhost:8080'.
 You can now connect to the web client at 'http://localhost:8000'.
 
 Use the following credentials to sign-in to the site.
-username: dev
-password: helloWorld
+* username: dev
+* password: helloWorld
 
 The registration form does not work at this time.
