@@ -24,6 +24,8 @@ class Calendar extends Component {
     });
   }
 
+
+
   getCalendarItemsBasic() {
     let calendarItems;
     const {
@@ -49,13 +51,17 @@ class Calendar extends Component {
     return calendarItems;
   }
 
+  handleClick = () => {
+    console.log('click');
+  }
+
   render() {
     const { today } = this.state;
     return (
       <div className="calendar">
         <Item.Group>
-          <Header as="h3">
-            <Icon name="calendar" />
+          <Header white as="h3">
+            <Icon name="calendar" link onClick={this.handleClick} />
             {today.toDateString()}
           </Header>
           { this.getCalendarItemsBasic() }

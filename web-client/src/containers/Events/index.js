@@ -1,10 +1,11 @@
 import './events.scss';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Grid, Header } from 'semantic-ui-react';
+import { fetchEvents } from '../../_actions/events';
 
-import AddEvent from '../../components/AddEvent';
+import AddEvent from '../../components/Forms/AddEvent';
 import EventFeed from '../../components/EventFeed';
-import Data from '../../_services/data';
 
 
 class Events extends Component {
@@ -14,12 +15,12 @@ class Events extends Component {
   }
 
   componentDidMount() {
-    Data.getAllEvents().then((response) => { this.setState({ events: response.data }); })
-      .catch((err) => { this.setState({ error: err.response.status }); });
+    const { dispatch } = this.props;
+    dispatch(fetchEvents());
   }
 
   render() {
-    const { events, error } = this.state;
+    const { error } = this.state;
     if (error) {
       throw new Error(error);
     }
@@ -32,7 +33,7 @@ class Events extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={8}>
-              <EventFeed items={events} />
+              <EventFeed />
             </Grid.Column>
             <Grid.Column width={8}>
               <AddEvent />
@@ -44,4 +45,4 @@ class Events extends Component {
   }
 }
 
-export default Events;
+export default connect()(Events);

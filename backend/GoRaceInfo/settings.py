@@ -1,19 +1,14 @@
 import os
 import datetime
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'odjl%g#b-zcgo2iz71@dtj8arf0if5zp0v6c6=e#&91r4jxpr8'
-
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = False
+SECRET_KEY = config('SECRET_KEY')
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -26,6 +21,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'data.apps.DataConfig',
     'services.apps.ServicesConfig',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -39,8 +35,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-# JWT settings
+# JSON Web Token settings
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
@@ -56,7 +51,7 @@ JWT_AUTH = {
 
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'api.utils.jwt_response_payload_handler',
 
-    'JWT_SECRET_KEY': 'odjl%g#b-zcgo2iz71@dtj8arf0if5zp0v6c6=e#&91r4jxpr8',
+    'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
     'JWT_PUBLIC_KEY': None,
     'JWT_PRIVATE_KEY': None,
@@ -64,7 +59,7 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=30000),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 
@@ -106,7 +101,6 @@ WSGI_APPLICATION = 'GoRaceInfo.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -125,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -139,42 +132,55 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
-STATIC_URL = '/static/'
+AWS_STORAGE_BUCKET_NAME = 'goraceinfo-static'
+AWS_S3_REGION_NAME = 'us-west-3'
 
-DEBUG = True
-CORS_ORIGIN_ALLOW_ALL = True
-SECURE_SSL_REDIRECT = False
+AWS_ACCESS_KEY_ID = 'AKIAJUHCCYW6MQ7B6OEQ'
+AWS_SECRET_ACCESS_KEY = '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'
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_S3_OBJECT_PARAMETERS = {
+   'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+   'CacheControl': 'max-age=94608000',
+}
+
+AWS_LOCATION = 'static'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+DEFAULT_FILE_STORAGE = 'GoRaceInfo.storage_backends.MediaStorage'
 
 
-if (DEBUG):
-    '''
-        Production Settings
-    '''
-    ALLOWED_HOSTS = ['*']
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = False
 
+PRODUCTION = False
 
+if (PRODUCTION):
+    DEBUG = False
+    CORS_ORIGIN_ALLOW_ALL = False
+    SECURE_SSL_REDIRECT = False
+    ALLOWED_HOSTS = [
+        'http://goraceinfo.com.s3-website-us-west-2.amazonaws.com'
+    ]
 
-    if 'RDS_DB_NAME' in os.environ:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                'NAME': os.environ['RDS_DB_NAME'],
-                'USER': os.environ['RDS_USERNAME'],
-                'PASSWORD': os.environ['RDS_PASSWORD'],
-                'HOST': os.environ['RDS_HOSTNAME'],
-                'PORT': os.environ['RDS_PORT'],
-            }
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
         }
-    else:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(BASE_DIR, 'database/v1.db'),
-            }
-        }
+    }
 
-    '''
+
     CORS_ORIGIN_WHITELIST = (
         'http://goraceinfo.com.s3-website-us-west-2.amazonaws.com',
     )
@@ -182,19 +188,19 @@ if (DEBUG):
     CORS_ORIGIN_REGEX_WHITELIST = (
         'http://goraceinfo.com.s3-website-us-west-2.amazonaws.com',
     )
-    '''
 
 else:
     '''
         Development Settings
     '''
+    DEBUG = config('DEBUG')
+    CORS_ORIGIN_ALLOW_ALL = True
     SECURE_SSL_REDIRECT = False
-
     ALLOWED_HOSTS = ['*']
 
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, '../database/v1.db'),
+            'NAME': os.path.join(BASE_DIR, 'database/', config('DB_NAME')),
         }
     }

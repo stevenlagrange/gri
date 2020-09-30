@@ -14,7 +14,7 @@ class CalendarList(APIView):
         post:
             Create a calendar.
     """
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, user_id, format=None):
         calendars = Calendar.objects.get(user_id=user_id)
         serializer = CalendarSerializer(calendars)

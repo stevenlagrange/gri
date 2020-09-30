@@ -2,7 +2,7 @@ import './login.scss';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import LoginForm from '../../components/LoginForm';
+import LoginForm from '../../components/Forms/LoginForm';
 import Authorization from '../../_services/authorization';
 
 class Login extends Component {

@@ -1,10 +1,9 @@
 import './profile.scss';
 import React, { Component } from 'react';
-import { Grid, Header, Icon } from 'semantic-ui-react';
+import { Grid, Header, Icon, Segment, Item, Sticky } from 'semantic-ui-react';
 import ProfileFeed from '../../components/ProfileFeed';
-import ProfileHeader from './ProfileHeader';
+import ProfileHeader from '../../components/ProfileHeader';
 import ProfileUtilites from '../../components/ProfileUtilites';
-import AddPost from '../../components/AddPost';
 import Calendar from '../../components/Calendar';
 import Data from '../../_services/data';
 import Authorization from '../../_services/authorization';
@@ -35,6 +34,7 @@ class Profile extends Component {
     Authorization.verifyUser().then(this.profileLoader());
   }
 
+
   getProfile() {
     // Retrieve 'Profile' from the server.
     Data.getProfileDetails()
@@ -64,6 +64,9 @@ class Profile extends Component {
     this.getPosts();
   }
 
+  handleContextRef = contextRef => this.setState({ contextRef });
+
+
   render() {
     const {
       profile: {
@@ -78,25 +81,29 @@ class Profile extends Component {
       posts,
       view,
     } = this.state;
+    const { contextRef } = this.state;
 
     return (
       <div className="profile">
         <Grid>
           <Grid.Row>
-            <Grid.Column width={8}>
-              <ProfileHeader
-                firstName={firstName}
-                lastName={lastName}
-                username={userName}
-                bio={bio}
-                location={location}
-              />
-              <ProfileUtilites />
-              <AddPost updateView={this.updateView} />
-              <ProfileFeed view={view} items={posts} />
-            </Grid.Column>
-            <Grid.Column width={8}>
+            <Grid.Column width={6}>
+              <Segment>
+                <ProfileHeader
+                  firstName={firstName}
+                  lastName={lastName}
+                  username={userName}
+                  bio={bio}
+                  location={location}
+                />
+                <ProfileUtilites />
+              </Segment>
               <Calendar />
+            </Grid.Column>
+            <Grid.Column width={10}>
+              <Item.Group>
+                <ProfileFeed view={view} items={posts} />
+              </Item.Group>
             </Grid.Column>
           </Grid.Row>
         </Grid>

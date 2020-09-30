@@ -19,27 +19,27 @@ class PostDetail(APIView):
         delete:
             Delete post.
     """
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    def get_objects(self, id):
+    permission_classes = (permissions.IsAuthenticated,)
+    def get_objects(self, uid, pid):
         try:
-            return Post.objects.get(pid=id)
+            return Post.objects.get(author_id=uid, pid=pid)
         except Post.DoesNotExist:
             raise Http404
 
-    def get(self, request, user_id, format=None):
-        post = self.get_objects(user_id)
+    def get(self, request, user_id, pid, format=None):
+        post = self.get_objects(user_id, pid)
         serializer = PostSerializer(post)
         return Response(serializer.data)
 
-    def put(self, request, user_id, format=None):
-        post = self.get_objects(user_id)
-        serializer = PostSerializer(owner, data=request.data)
+    def put(self, request, user_id, pid, format=None):
+        post = self.get_objects(user_id, pid)
+        serializer = PostSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, id, format=None):
-        post = self.get_objects(user_id)
+    def delete(self, request, user_id, pid, format=None):
+        post = self.get_objects(user_id, pid)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

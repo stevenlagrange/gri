@@ -3,7 +3,6 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.documentation import include_docs_urls
 
-from api.views import login
 from api.endpoints.CalendarList import CalendarList
 from api.endpoints.CalendarDetail import CalendarDetail
 from api.endpoints.EventDetail import EventDetail
@@ -13,7 +12,6 @@ from api.endpoints.PostList import PostList
 from api.endpoints.ProfileDetail import ProfileDetail
 
 urlpatterns = [
-    url(r'login/$', login),
     url(r'calendars/(?P<user_id>[0-9]+)/$', CalendarList.as_view(), name='user_calendar'),
     url(r'calendars/(?P<user_id>[0-9]+)/(?P<eid>[0-9]+)/$', CalendarDetail.as_view(), name='user_calendar_event'),
     url(r'events/$', EventList.as_view(), name='all_events'),

@@ -2,3 +2,6 @@ environment/
 web-client/node_modules/
 *.pyc
 *.pyo
+backend/.env
+backend/.ebextensions
+backend/.elasticbeanstalk

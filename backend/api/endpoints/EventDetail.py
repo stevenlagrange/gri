@@ -17,7 +17,7 @@ class EventDetail(APIView):
         delete:
             Delete event {id}.
     """
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticated,)
     def get_objects(self, id):
         try:
             return Event.objects.get(eid=id)

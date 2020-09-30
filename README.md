@@ -1,3 +1,6 @@
+##GoRaceInfo is a fictional social media site for racing enthusiasts.
+Built using ReactJs and Django.
+
 #Getting Started:
 Requires:
 - Python version 3+
@@ -35,6 +38,12 @@ The server is now listening at 'http://localhost:8080'.
 ```
 2. Start Webpack Development Server.
 ```
-  npm start
+  npm run start:dev
 ```
 You can now connect to the web client at 'http://localhost:8000'.
+
+Use the following credentials to sign-in to the site.
+username: dev
+password: helloWorld
+
+The registration form does not work at this time.

@@ -14,9 +14,10 @@ class PostList(APIView):
         post:
             Create a post.
     """
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, user_id, format=None):
-        posts = Post.objects.filter(user_id=user_id)
+        print(request.user.id)
+        posts = Post.objects.filter(author=user_id)
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 

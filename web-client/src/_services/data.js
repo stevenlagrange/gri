@@ -66,6 +66,16 @@ function getPosts() {
   return API.posts(resource);
 }
 
+function getPostById(id) {
+  // Get `post` by `id`.
+  const resource = {
+    method: 'get',
+    token: browserStorage.getToken(),
+    detail: `${browserStorage.getUserId()}/${id}`,
+  };
+  return API.posts(resource);
+}
+
 export default {
   getAllEvents,
   getEventById,
@@ -74,4 +84,5 @@ export default {
   getUserCalendar,
   getProfileDetails,
   getPosts,
+  getPostById,
 };

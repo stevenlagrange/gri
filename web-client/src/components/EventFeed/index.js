@@ -1,5 +1,6 @@
 import './event-feed.scss';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Dimmer, Loader, Item } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import EventItem from '../EventItem';
@@ -27,18 +28,22 @@ function getEventItems(items) {
   return eventItems;
 }
 
-function EventFeed({ items }) {
+function EventFeed({ events, isFetching }) {
   return (
     <div className="event-feed">
       <Item.Group>
-        { getEventItems(items) }
+        {getEventItems(events)}
       </Item.Group>
     </div>
   );
 }
 
-EventFeed.propTypes = {
-  items: PropTypes.array.isRequired,
+const mapStateToProps = (state) => {
+  return {
+    events: state.eventsReducer.events,
+    isFetching: state.eventsReducer.isFetching,
+  };
 };
 
-export default EventFeed;
+
+export default connect(mapStateToProps, {})(EventFeed);

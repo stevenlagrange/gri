@@ -15,11 +15,17 @@ function signout() {
   history.push('/');
 }
 
-function authenticate() {
+/*
+  @desc Redirect to authenticate route.
+*/
+function redirectToAuthenticate() {
   browserStorage.clearToken();
   history.push('/login');
 }
 
+/*
+  @desc Obtain API token to authenticate user.
+*/
 function login(username, password, cb) {
   API.tokenObtain(username, password)
     .then((response) => {
@@ -32,19 +38,22 @@ function login(username, password, cb) {
     });
 }
 
+/*
+  @desc Use to verify user to make sure token is still valid.
+*/
 function verifyUser() {
   return verifyToken()
     .catch(() => {
       refreshToken()
         .catch(() => {
-          authenticate();
+          redirectToAuthenticate();
         });
     });
 }
 
 export default {
   signout,
-  authenticate,
+  redirectToAuthenticate,
   login,
   verifyUser,
 };

@@ -17,7 +17,7 @@ class CalendarDetail(APIView):
         delete:
             Delete calendar.
     """
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticated,)
     def get_objects(self, id):
         try:
             return Calendar.objects.get(user_id=id)

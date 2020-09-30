@@ -9,7 +9,7 @@ from rest_framework import status
 class EventList(APIView):
     """
         get:
-            Return all events.
+            Return all events for GoRaceInfo.
 
         post:
             Create an event.

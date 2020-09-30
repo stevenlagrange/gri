@@ -22,9 +22,11 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    author = UserSerializer()
+
     class Meta:
         model = Post
-        fields = ('title', 'data', 'user', 'created_date')
+        fields = ('pid', 'title', 'description', 'author', 'created_date')
 
 
 class CalendarSerializer(serializers.ModelSerializer):

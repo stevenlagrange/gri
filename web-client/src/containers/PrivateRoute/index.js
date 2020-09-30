@@ -10,7 +10,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import browserStorage from '../../_utilities/browserStorage';
-import Login from '../Login';
+import Splash from '../Splash';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
 
@@ -20,7 +20,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     render={props => (
       browserStorage.getToken() !== null
         ? <ErrorBoundary><Component {...props} /></ErrorBoundary>
-        : <Login />
+        : <Splash />
     )}
   />
 );

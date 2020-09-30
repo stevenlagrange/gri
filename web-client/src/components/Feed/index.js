@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Preloader } from 'react-materialize';
-import FeedItem from './FeedItem';
+import FeedItem from '../FeedItem';
 
 class Feed extends Component {
   constructor(props) {
     super(props);
   }
 
-  getFeedItems() {
+  getFeedItems(items) {
     let feedItems;
-    if(this.props.items) {
-      const data = this.props.items;
-      feedItems = data.map((item, i) =>
-        <FeedItem key={i}
+    if (items) {
+      feedItems = items.map((item, i) =>
+        <FeedItem
+          key={i}
           title={item.title}
           description={item.description}
           date={item.date}
@@ -25,9 +25,10 @@ class Feed extends Component {
   }
 
   render() {
+    const { items } = this.props;
     return (
       <div>
-        { this.getFeedItems() }
+        { this.getFeedItems(items) }
       </div>
     )
   }
